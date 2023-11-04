@@ -55,8 +55,10 @@ Node::Node() {
 class MinHeap {
 private:
 	Node* root;
-	//int ArraySize;
-	//int HeapSize;
+	//Plus one heap size
+	int ArraySize;
+	//Amount of nodes in head
+	int HeapSize;
 public:
 
 	// This function prints keys in the 
@@ -77,7 +79,11 @@ public:
 	// This function returns root. 
 	Node* Root();
 
-	// void Resize(int n);
+	void Resize(int n);
+
+	void RecursiveSwap(int index);
+
+	void Swap(int a, int b);
 
 	// You can design the constructor 
 	// in any way you like e.g., you 
@@ -88,6 +94,55 @@ public:
 	MinHeap();
 	
 };
+
+//BSTraverse
+void MinHeap::BSTraverse(){
+	
+	//Array based BF traversal
+	for(int i = 1; i < ArraySize; i++){
+		cout << root[i].Get_key() << endl;
+	}
+}
+
+//Add
+void MinHeap::Add(Node* p){
+	//When heapsize is
+	HeapSize++;
+	int addIndex = HeapSize;
+	//cout << "ADD" << endl;
+	root[addIndex].Set_key(p->Get_key());
+
+	RecursiveSwap(addIndex);
+}
+
+//RecursiveSwap
+void MinHeap::RecursiveSwap(int index){
+
+	//Get parent's index
+	int parentIndex = index / 2;
+
+	//If parent is greater, swap and call on parent
+	if(parentIndex != 0 && root[parentIndex].Get_key() > root[index].Get_key()){
+		Swap(parentIndex, index);
+		RecursiveSwap(parentIndex);
+	}
+}
+
+//Swap
+void MinHeap::Swap(int a, int b){
+	
+	int temp = root[a].Get_key();
+
+	root[a].Set_key(root[b].Get_key());
+	root[b].Set_key(temp);
+}
+
+//Constructor
+MinHeap::MinHeap(){
+	ArraySize = 13;
+	HeapSize = 0;
+	root = new Node[ArraySize];
+}
 
 int main()
 {
@@ -111,13 +166,13 @@ int main()
 	}
 	// Mode 1: test Root()
 	else if (mode == 1) {
-		temp = heap.Root();
-		cout << temp->Get_key();
+		//temp = heap.Root();
+		//cout << temp->Get_key();
 	}
 	// Mode 2: test Remove()
 	else if (mode == 2) {
-		heap.Remove();
-		heap.BSTraverse();
+		//heap.Remove();
+		//heap.BSTraverse();
 	}
 	// Mode 3: implement heap sort. 
 	else if (mode == 3) {
@@ -127,7 +182,7 @@ int main()
 		// Do not modify this part.
 		Node arr[5];
 		for (int i = 0; i < 4; i++) {
-			arr[i].Set_key(5-i);
+			//arr[i].Set_key(5-i);
 		}
 
 		// Now, write codes that apply your 
@@ -142,8 +197,13 @@ int main()
 		// They should be 1, 2, 3, 4, 5. 
 		// Do not modify this part.
 		for (int i = 0; i < 4; i++) {
-			cout << arr[i].Get_key();
+			//cout << arr[i].Get_key();
 		}
+
+
+	}
+	//Personal Tests
+	else if(mode == 4){
 
 
 	}
